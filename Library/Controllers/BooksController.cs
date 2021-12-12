@@ -33,7 +33,7 @@ namespace Library.Controllers
             }
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Reservation(int id)
         {
             try
             {
