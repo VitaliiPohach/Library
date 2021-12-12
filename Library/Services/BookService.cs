@@ -46,13 +46,13 @@ namespace Library.Services
             _dbContext.Books.FirstOrDefault(b => b.Id == model.Id).Authors = model.Authors;
             _dbContext.Books.FirstOrDefault(b => b.Id == model.Id).Title = model.Title;
             _dbContext.Books.FirstOrDefault(b => b.Id == model.Id).IsReserved = model.IsReserved;
-
+            _dbContext.Books.FirstOrDefault(b => b.Id == model.Id).IsArhived = model.IsArhived;
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task<IList<Book>> GetAllAsync()
         {
-            return await _dbContext.Books.Include(b => b.Authors).ToListAsync();
+            return await _dbContext.Books.Include(b => b.Authors).Where(b=>b.IsArhived==false).ToListAsync();
         }
 
         public async Task<Book> GetByIdAsync(int Id)

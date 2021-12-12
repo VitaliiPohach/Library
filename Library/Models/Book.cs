@@ -12,5 +12,7 @@ namespace Library.Models
         public string Title { get; set; }
         public List<Author> Authors { get; set; } = new List<Author>();
         public bool IsReserved { get; set; }
+
+        public bool IsArhived { get; set; }
     }
 }

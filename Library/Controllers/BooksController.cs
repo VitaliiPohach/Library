@@ -68,6 +68,8 @@ namespace Library.Controllers
                 return BadRequest();
             }
         }
+
+
         [HttpPost]
         public async Task<IActionResult> Edit(int id,  Book book)
         {
@@ -83,6 +85,18 @@ namespace Library.Controllers
             }
         }
 
+
+        public async Task<IActionResult> Archive(int id)
+        {
+            try
+            {
+                return View(await _books.GetByIdAsync(id));
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
 
     }
 }
