@@ -17,5 +17,7 @@ namespace Library.Services
         Task EditAsync(Book model);
 
         Task DeleteAsync(int id);
+
+        public void SaveToFile(string filePath);
     }
 }

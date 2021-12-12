@@ -1,8 +1,11 @@
 ﻿using Library.Models;
 using Library.Services;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,11 +13,13 @@ namespace Library.Controllers
 {
     public class BooksController : Controller
     {
+        private readonly IWebHostEnvironment _appEnvironment;
 
         private readonly IBooks _books;
-        public BooksController(IBooks books)
+        public BooksController(IBooks books, IWebHostEnvironment appEnvironment)
         {
             _books = books;
+            _appEnvironment = appEnvironment;
         }
         public async Task< IActionResult> Index()
         {
@@ -96,6 +101,29 @@ namespace Library.Controllers
             {
                 return BadRequest();
             }
+        }
+
+        public IActionResult GetFile()
+        {
+           
+            string file_path = Path.Combine(_appEnvironment.ContentRootPath, "Files/Books.csv");
+          
+            string file_type = "application/csv";
+
+            string file_name = "Books.csv";
+
+            return PhysicalFile(file_path, file_type, file_name);
+        }
+
+        public async Task<IActionResult> SaveFile()
+        {
+            IList<Book> books = new List<Book>();
+            string file_path = Path.Combine(_appEnvironment.ContentRootPath, "Files/Books.csv");
+
+            books = await _books.GetAllAsync();
+            _books.SaveToFile(file_path);
+             
+            return RedirectToAction(nameof(Index));
         }
 
     }

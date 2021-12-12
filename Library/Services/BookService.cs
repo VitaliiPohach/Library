@@ -3,6 +3,7 @@ using Library.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -60,6 +61,39 @@ namespace Library.Services
             var book = await _dbContext.Books.Include(b => b.Authors).FirstOrDefaultAsync(a => a.Id == Id);
 
             return book;
+        }
+
+
+        public  void SaveToFile(string filePath)
+        {
+            IList<Book> books = new List<Book>();
+            List<string> lines = new List<string>();
+
+            books = _dbContext.Books.ToList();
+
+            foreach(Book b in books)
+            {
+                lines.Add($"{b.Id},{b.Title},{ConvertAuthorsToString(b.Authors)}");
+
+            }
+
+            File.WriteAllLines(filePath, lines);
+        }
+
+        public static string ConvertAuthorsToString(List<Author> authors)
+        {
+            string result = "";
+            if(authors.Count == 0)
+            {
+                return "";
+            }
+
+            foreach(Author a in authors)
+            {
+                result += $" {a.Name} {a.Surname}";
+            }
+
+            return result;
         }
     }
 }
