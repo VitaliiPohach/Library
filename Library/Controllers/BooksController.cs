@@ -21,6 +21,30 @@ namespace Library.Controllers
             return View(await _books.GetAllAsync());
         }
 
+        public async Task<IActionResult> ShowAllSorted()
+        {
+            var books = await _books.GetAllAsync();
+
+
+            return View("Index",books.OrderBy(b=>b.Title));
+        }
+
+        public async Task<IActionResult> ShowAllReserved()
+        {
+            var books = await _books.GetAllAsync();
+
+
+            return View("Index", books.Where(b => b.IsReserved == true));
+        }
+
+        public async Task<IActionResult> ShowAllAvailable()
+        {
+            var books = await _books.GetAllAsync();
+
+
+            return View("Index", books.Where(b => b.IsReserved == false));
+        }
+
         public async Task<IActionResult> Details(int id)
         {
             try
