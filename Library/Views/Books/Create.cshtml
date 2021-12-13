@@ -1,0 +1,83 @@
+﻿@model Library.Models.Book
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Book</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+         
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsReserved" /> @Html.DisplayNameFor(model => model.IsReserved)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsArhived" /> @Html.DisplayNameFor(model => model.IsArhived)
+                </label>
+            </div>
+
+            <div id="booksBlock">
+                <div class="form-group">
+                    <h4>Author 1</h4>
+                    <div>
+                        <label>Name</label>
+                        <div>
+                            <input asp-for="Authors" type="text" name="Authors[0].name" />
+                        </div>
+                        <label>Surname</label>
+                        <div>
+                            <input asp-for="Authors" type="text" name="Authors[0].surname" />
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <p><a class="addLink">Добавить новый элемент</a></p>
+
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+       $(function () {
+           var i = 0;
+           $('.addLink').click(function()
+           {
+               i++;
+               var html2Add = "<div class='form-group'>"+
+            "<h4>Author"+(i+1) + "</h4>"+
+            "<div><label>Name</label><div>"+
+                   "<input type='text' name='Authors[" + i + "].name' />" +
+                   "<div><label>Surname</label><div>" +
+                   "<input type='text' name='Authors[" + i + "].surname' />" +
+                "</div></div></div>";
+               $('#booksBlock').append(html2Add);
+           })
+       })
+    </script>
+
+}

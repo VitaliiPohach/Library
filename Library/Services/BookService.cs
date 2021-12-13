@@ -25,7 +25,8 @@ namespace Library.Services
             Book books = new Book()
             {
                 Title = model.Title,
-                IsReserved = model.IsReserved
+                IsReserved = model.IsReserved,
+                Authors = model.Authors
             };
 
             await _dbContext.Books.AddAsync(books);

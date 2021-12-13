@@ -26,6 +26,26 @@ namespace Library.Controllers
             return View(await _books.GetAllAsync());
         }
 
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+  
+        [HttpPost]
+        public async Task<IActionResult> Create(Book book)
+        {
+            try
+            {
+                await _books.AddAsync(book);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
         public async Task<IActionResult> ShowAllSorted()
         {
             var books = await _books.GetAllAsync();
